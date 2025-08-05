@@ -534,7 +534,7 @@
 											"top": 91,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-id: UUID",
+											"text": "-id: CustomerId",
 											"horizontalAlignment": 0
 										},
 										{
@@ -552,7 +552,7 @@
 											"top": 106,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-fullName: String",
+											"text": "-fullName: FullName",
 											"horizontalAlignment": 0
 										},
 										{
@@ -570,7 +570,7 @@
 											"top": 121,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-birthDate: LocalDate",
+											"text": "-birthDate: BirthDate",
 											"horizontalAlignment": 0
 										},
 										{
@@ -588,7 +588,7 @@
 											"top": 136,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-email: String",
+											"text": "-email: Email",
 											"horizontalAlignment": 0
 										},
 										{
@@ -606,7 +606,7 @@
 											"top": 151,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-phone: String",
+											"text": "-phone: Phone",
 											"horizontalAlignment": 0
 										},
 										{
@@ -624,7 +624,7 @@
 											"top": 166,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-document: String",
+											"text": "-document: Document",
 											"horizontalAlignment": 0
 										},
 										{
@@ -714,7 +714,7 @@
 											"top": 241,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "-loyaltyPoints: Integer",
+											"text": "-loyaltyPoints: LoyaldPoints",
 											"horizontalAlignment": 0
 										}
 									],
@@ -750,7 +750,7 @@
 											"top": 264,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "+addLoyaltyPoints(Integer)",
+											"text": "+addLoyaltyPoints(LoyaldPoints)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -822,7 +822,7 @@
 											"top": 324,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "+changeName(String)",
+											"text": "+changeName(FullName)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -840,7 +840,7 @@
 											"top": 339,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "+changeEmail(String)",
+											"text": "+changeEmail(Email)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -858,7 +858,7 @@
 											"top": 354,
 											"width": 237.666015625,
 											"height": 13,
-											"text": "+changePhone(String)",
+											"text": "+changePhone(Phone)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3898,7 +3898,7 @@
 							},
 							"name": "id",
 							"visibility": "private",
-							"type": "UUID"
+							"type": "CustomerId"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3908,7 +3908,7 @@
 							},
 							"name": "fullName",
 							"visibility": "private",
-							"type": "String"
+							"type": "FullName"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3918,7 +3918,7 @@
 							},
 							"name": "birthDate",
 							"visibility": "private",
-							"type": "LocalDate"
+							"type": "BirthDate"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3928,7 +3928,7 @@
 							},
 							"name": "email",
 							"visibility": "private",
-							"type": "String"
+							"type": "Email"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3938,7 +3938,7 @@
 							},
 							"name": "phone",
 							"visibility": "private",
-							"type": "String"
+							"type": "Phone"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3948,7 +3948,7 @@
 							},
 							"name": "document",
 							"visibility": "private",
-							"type": "String"
+							"type": "Document"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -3998,7 +3998,7 @@
 							},
 							"name": "loyaltyPoints",
 							"visibility": "private",
-							"type": "Integer"
+							"type": "LoyaldPoints"
 						}
 					],
 					"operations": [
@@ -4016,8 +4016,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGYd0X7IXZlfF8="
 									},
-									"name": "Integer",
-									"type": ""
+									"name": "LoyaldPoints"
 								}
 							]
 						},
@@ -4059,8 +4058,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGYd0aHyISh3Pw="
 									},
-									"name": "String",
-									"type": ""
+									"name": "FullName"
 								}
 							]
 						},
@@ -4078,8 +4076,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGYd0afsIbM/pw="
 									},
-									"name": "String",
-									"type": ""
+									"name": "Email"
 								}
 							]
 						},
@@ -4097,8 +4094,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGYd0a3/Yj3tC4="
 									},
-									"name": "String",
-									"type": ""
+									"name": "Phone"
 								}
 							]
 						}
