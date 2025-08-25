@@ -417,7 +417,7 @@
 											"top": 359,
 											"width": 270.90234375,
 											"height": 13,
-											"text": "+containsUnavailablesItems(): booleans",
+											"text": "+containsUnavailablesItems(): boolean",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8931,7 +8931,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGY3JF8Jv3as/g="
 									},
-									"name": "shoppingCardId"
+									"name": "shoppingCardId",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -9014,7 +9015,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGY3JQgwwNAXOc="
 									},
-									"type": "booleans",
+									"type": "boolean",
 									"direction": "return"
 								}
 							]
