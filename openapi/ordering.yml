@@ -54,9 +54,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Customer'        
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Customer'
   /api/v1/customers/{customerId}:
     get:            
       parameters:        
@@ -367,4 +372,27 @@ components:
         fields:
           type: array
           description: "Fields that caused the error"          
+    Page:
+      type: object
+      required:
+        - number        
+        - size
+        - totalPages
+        - totalElements
+        - content
+      properties:
+        number:
+          type: integer
+          example: 2            
+        page:
+          type: integer
+          example: 9
+        totalPages:
+          type: integer
+          example: 15
+        totalElements:
+          type: integer
+          example: 150
+
+        
           
