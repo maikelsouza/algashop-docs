@@ -91,7 +91,7 @@ paths:
                       content:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Customer'
+                          $ref: '#/components/schemas/CustomerSummary'
   /api/v1/customers/{customerId}:
     get:            
       parameters:        
@@ -283,7 +283,7 @@ components:
           example: false
         addresses:          
             $ref: '#/components/schemas/Address'
-    Address:    
+    Address:        
       type: object
       required:
         - street
@@ -328,6 +328,34 @@ components:
           example: "12321"
           nullable: false  
           x-validation: "notBlank"
+    CustomerSummary:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email        
+        - phone        
+        - archivied        
+      properties:
+        id:
+          type: string
+          example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"      
+        email:
+          type: string
+          example: "Johndoe@email.com"      
+        document:
+          type: string
+          example: "12345"                  
+        archivied:
+          type: boolean
+          example: false        
     CustomerInput:
       type: object      
       required:
