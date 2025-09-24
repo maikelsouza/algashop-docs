@@ -163,7 +163,43 @@ paths:
           description: No content
         404:
           description: Not found  
-
+  /api/v1/orders:
+    post:
+      description: Create an order
+      tags:
+        - Orders
+      requestBody:
+        required: true        
+        content:
+          application/vnd.order-with-shopping-card.v1+json:
+            schema:
+              $ref: "#/components/schemas/OrderWithShoppingCartInput"
+          application/vnd.order-with-product.v1+json:
+            schema:
+              $ref: "#/components/schemas/OrderWithProductInput"
+      responses:
+        201:
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          headers:
+            Location:            
+              schema:
+                type: string
+              description: Resource address              
+              example: "api/v1/orders/701226N0693HDE"
+            
+          
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/UnprocessableEntity'
+        500:
+          $ref: '#/components/responses/InternalServerError'
 components:
   parameters:
     page:
@@ -480,6 +516,257 @@ components:
         totalElements:
           type: integer
           example: 150
-
-        
+    OrderWithProductInput:
+      required:
+        - customerId
+        - paymentMethod
+        - productId
+        - quantity
+        - shipping
+        - billing
+      properties:
+        customerId:
+          type: string
+          example: "6e148bd5-47f6-4022-b9da-07cfaa294f7a"
+          nullable: false
+        productId:
+          type: string
+          example: "28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff"
+          nullable: false
+        quantity:
+          type: integer
+          example: 12
+          nullable: false
+          x-validation: "positive"
+        paymentMethod:
+          type: string
+          example: "GATEWAY_BALANCE"
+          nullable: false
+        shipping:
+          $ref: "#/components/schemas/ShippingInput"
+        billing:
+          $ref: "#/components/schemas/Billing"
+    OrderWithShoppingCartInput:
+      required:
+        - shoppingCartId
+        - paymentMethod
+        - shipping
+        - billing
+      properties:
+        shoppingCartId:
+          type: string
+          example: "28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff"
+          nullable: false
+        paymentMethod:
+          type: string
+          example: "GATEWAY_BALANCE"
+          nullable: false
+        shipping:
+          $ref: "#/components/schemas/ShippingInput"
+        billing:
+          $ref: "#/components/schemas/Billing"
+    Order:
+      required:
+        - id
+        - customer
+        - paymentMethod
+        - totalItems
+        - totalAmount
+        - placedAt
+        - canceledAt
+        - paidAt
+        - readyAt
+        - status
+        - items
+        - shipping
+        - billing
+      properties:
+        id:
+          type: string
+          example: "01226N0640J7Q"
+        customer:
+          $ref: "#/components/schemas/CustomerMinimal"
+        totalItems:
+          type: integer
+          example: 2
+        totalAmount:
+          type: number
+          example: 41.98
+        placedAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        canceledAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        paidAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        readyAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        status:
+          type: string
+          example: "PAID"
+        paymentMethod:
+          type: string
+          example: "GATEWAY_BALANCE"
+        shipping:
+          $ref: "#/components/schemas/Shipping"
+        billing:
+          $ref: "#/components/schemas/Billing"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+    OrderItem:
+      required:
+        - id
+        - productId
+        - productName
+        - quantity
+        - price
+        - totalAmount
+      properties:
+        id:
+          type: string
+          example: "02226N0640J7F"
+        productId:
+          type: string
+          example: "28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff"
+        price:
+          type: number
+          example: 19.99
+          format: double
+          minimum: 1
+          maximum: 100000
+        productName:
+          type: string
+          example: "Notebook Dive Gamer X11"
+        quantity:
+          type: integer
+          example: 2
+          minimum: 1
+          maximum: 100
+        totalAmount:
+          type: number
+          example: 19.99
+          format: double
+          minimum: 1
+          maximum: 100000
+    ShippingInput:
+      type: object
+      properties:
+        recipient:
+          $ref: "#/components/schemas/Recipient"
+        address:
+          $ref: "#/components/schemas/Address"
+    Recipient:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - document
+        - phone
+        - address
+      properties:
+        firstName:
+          type: string
+          example: "John"
+          nullable: false
+        lastName:
+          type: string
+          example: "Doe"
+          nullable: false
+        document:
+          type: string
+          example: "12345"
+          nullable: false
+        phone:
+          type: string
+          example: "5511912341234"
+          nullable: false
+    Billing:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - document
+        - phone
+        - email
+        - address
+      properties:
+        firstName:
+          type: string
+          example: "John"
+          nullable: false
+        lastName:
+          type: string
+          example: "Doe"
+          nullable: false
+        document:
+          type: string
+          example: "12345"
+          nullable: false
+        phone:
+          type: string
+          example: "5511912341234"
+          nullable: false
+        email:
+          type: string
+          example: "johndoe@email.com"
+          nullable: false
+        address: 
+          $ref: "#/components/schemas/Address"
+    Shipping:
+      type: object
+      required:
+        - cost
+        - expectedDate
+        - recipient
+        - address
+      properties:
+        cost:
+          type: number
+          example: 20.50
+        expectedDate:
+          type: string
+          format: date
+          example: "2026-05-01"
+        recipient:
+          $ref: "#/components/schemas/Recipient"
+        address:
+          $ref: "#/components/schemas/Address"
+    CustomerMinimal:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - document
+        - email
+        - phone
+        - archived
+      properties:
+        id: 
+          type: string
+          example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        document:
+          type: string
+          example: "12345"
+        email:
+          type: string
+          example: "johndoe@email.com"
+        phone:
+          type: string
+          example: "1191234564"       
           
