@@ -58,7 +58,7 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
     get:      
-      description: List  customeres
+      description: List customeres
       tags:
         - Customers
       parameters:
@@ -190,8 +190,6 @@ paths:
                 type: string
               description: Resource address              
               example: "api/v1/orders/701226N0693HDE"
-            
-          
         400:
           $ref: '#/components/responses/BadRequest'
         404:
@@ -199,7 +197,95 @@ paths:
         422:
           $ref: '#/components/responses/UnprocessableEntity'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          $ref: '#/components/responses/InternalServerError'          
+    get:    
+      description: List Orders
+      tags:
+        - Orders
+      parameters:
+        - schema:
+             $ref: "#/components/schemas/OrderStatus"
+          in: query
+          name: status
+          required: false        
+        - schema:
+            type: string
+            format: date
+            example: "2025-01-01"            
+          in: query
+          name: orderedDateFrom          
+          required: false        
+        - schema:
+            type: string
+            format: date
+            example: "2025-12-31"            
+          in: query
+          name: orderedDateTo          
+          required: false        
+        - schema:
+            type: number            
+            example: "2000.00"            
+          in: query
+          name: totalAmountFrom          
+          required: false        
+        - schema:
+            type: number            
+            example: "2500.00"            
+          in: query
+          name: totalAmountTo          
+          required: false          
+        - schema:
+            type: string            
+            example: "01226N0640J7Q"            
+          in: query
+          name: orderId          
+          required: false
+        - schema:
+            type: string            
+            example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"            
+          in: query
+          name: customerId          
+          required: false                          
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/sort"
+        - $ref: "#/components/parameters/direction"  
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      content:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/OrderSummary'  
+  /api/v1/orders/{orderId}:
+   get:            
+      parameters:        
+        - schema:
+            type: string
+          name: orderId
+          in: path
+          required: true
+          example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"
+      description: "Get one order by id"
+      tags:
+        - Orders
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        404:
+          $ref: '#/components/responses/NotFound'
+    
 components:
   parameters:
     page:
@@ -776,9 +862,53 @@ components:
         - PAID
         - READY        
         - CANCELED        
-    PaymentMethod:
+    PaymentMethod:      
       type: string
       example: "GATEWAY_BALANCE"
       enum:
         - GATEWAY_BALANCE
         - CREDIT_CARD        
+    OrderSummary:
+      required:
+        - id
+        - customer
+        - paymentMethod
+        - totalItems
+        - totalAmount
+        - placedAt
+        - canceledAt
+        - paidAt
+        - readyAt
+        - status
+      properties:        
+        id:
+          type: string
+          example: "01226N0640J7Q"
+        customer:
+          $ref: "#/components/schemas/CustomerMinimal"
+        totalItems:
+          type: integer
+          example: 2
+        totalAmount:
+          type: number
+          example: 41.98
+        placedAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        canceledAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        paidAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        readyAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        status:
+          $ref: "#/components/schemas/OrderStatus"
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethod" 
