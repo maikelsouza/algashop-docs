@@ -17,19 +17,6 @@ paths:
       description: Register a new customer
       tags:
         - Customers
-      parameters:
-        - schema:
-            type: string
-            example: "12345"                      
-          in: query
-          name: document
-          required: false
-        - schema:
-            type: string
-            example: "johndoe@email.com" 
-          in: query
-          name: email
-          required: false         
       requestBody:
         required: true
         content:
@@ -165,7 +152,7 @@ paths:
           description: Not found  
   /api/v1/orders:
     post:
-      description: Create an order
+      description: Register a new order
       tags:
         - Orders
       requestBody:
@@ -392,8 +379,8 @@ components:
         registerAt:
           type: string
           format: date-time
-          example: "2024-04-04T12:45Z"  
-        archevidAt:
+          example: "2024-04-04T12:45Z"          
+        archivedAt:
           type: string
           format: date-time
           example: "2024-04-04T12:45Z"
@@ -574,7 +561,7 @@ components:
           example: "invalid fields"          
         instance:
           type: string          
-          example: "/api/v1/customers"
+          example: "/api-error-path"
         detail:
           type: string
           example: "One or more fields are invalid"
