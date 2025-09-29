@@ -328,7 +328,7 @@ paths:
           description: No content
         404:
           $ref: '#/components/responses/NotFound'
-  /api/v1/shopping-carts/{shoppingCartId}/items?{itemId}:
+  /api/v1/shopping-carts/{shoppingCartId}/items/{itemId}:
     delete:
       parameters:
         - schema:
@@ -340,7 +340,7 @@ paths:
         - schema:
             type: string
           name: itemId
-          in: query
+          in: path
           required: true
           example: "177297bf-e586-4389-9f21-a3ce0c3f6580"
       description: "Remove item from shopping cart"
