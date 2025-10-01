@@ -17,6 +17,19 @@ paths:
       description: Register a new customer
       tags:
         - Customers
+      parameters:
+        - schema:
+            type: string
+            example: "12345"                      
+          in: query
+          name: document
+          required: false
+        - schema:
+            type: string
+            example: "johndoe@email.com" 
+          in: query
+          name: email
+          required: false         
       requestBody:
         required: true
         content:
@@ -184,8 +197,8 @@ paths:
         422:
           $ref: '#/components/responses/UnprocessableEntity'
         500:
-          $ref: '#/components/responses/InternalServerError'          
-    get:    
+          $ref: '#/components/responses/InternalServerError'
+    get:
       description: List Orders
       tags:
         - Orders
@@ -194,49 +207,49 @@ paths:
              $ref: "#/components/schemas/OrderStatus"
           in: query
           name: status
-          required: false        
-        - schema:
-            type: string
-            format: date
-            example: "2025-01-01"            
-          in: query
-          name: orderedDateFrom          
-          required: false        
-        - schema:
-            type: string
-            format: date
-            example: "2025-12-31"            
-          in: query
-          name: orderedDateTo          
-          required: false        
-        - schema:
-            type: number            
-            example: "2000.00"            
-          in: query
-          name: totalAmountFrom          
-          required: false        
-        - schema:
-            type: number            
-            example: "2500.00"            
-          in: query
-          name: totalAmountTo          
-          required: false          
-        - schema:
-            type: string            
-            example: "01226N0640J7Q"            
-          in: query
-          name: orderId          
           required: false
         - schema:
-            type: string            
-            example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"            
+            type: string
+            format: date
+            example: "2025-01-01"
           in: query
-          name: customerId          
-          required: false                          
+          name: orderedDateFrom
+          required: false
+        - schema:
+            type: string
+            format: date
+            example: "2025-12-31"
+          in: query
+          name: orderedDateTo
+          required: false
+        - schema:
+            type: number
+            example: "2000.00"
+          in: query
+          name: totalAmountFrom
+          required: false
+        - schema:
+            type: number
+            example: "2500.00"
+          in: query
+          name: totalAmountTo
+          required: false
+        - schema:
+            type: string
+            example: "01226N0640J7Q"
+          in: query
+          name: orderId
+          required: false
+        - schema:
+            type: string
+            example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"
+          in: query
+          name: customerId
+          required: false
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/sort"
-        - $ref: "#/components/parameters/direction"  
+        - $ref: "#/components/parameters/direction"
       responses:
         200:
           description: Ok
@@ -250,10 +263,10 @@ paths:
                       content:
                         type: array
                         items:
-                          $ref: '#/components/schemas/OrderSummary'  
+                          $ref: '#/components/schemas/OrderSummary'
   /api/v1/orders/{orderId}:
-   get:            
-      parameters:        
+   get:
+      parameters:
         - schema:
             type: string
           name: orderId
@@ -272,7 +285,159 @@ paths:
                 $ref: "#/components/schemas/Order"
         404:
           $ref: '#/components/responses/NotFound'
-    
+
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/shopping-carts:
+    post:
+      description: Register a new Shopping Carts
+      tags:
+        - Shopping-Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingCartInput'
+      responses:
+        201:
+          description: Shopping Cart created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingCart'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Resource address
+              example: http://api.algashop.com/api/v1/shopping-carts/277297bf-e586-4389-9f21-b3ce0c3f6580
+        400:
+          $ref: '#/components/responses/BadRequest'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/shopping-carts/{shoppingCartId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "6a6ca34c-e65c-496e-adaf-f872e1784003"
+      description: "Get one shopping card by id"
+      tags:
+        - Shopping-Carts
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCart"
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "6a6ca34c-e65c-496e-adaf-f872e1784003"
+      description: "Delete Shopping Cart"
+      tags:
+        - Shopping-Carts
+      responses:
+        204:
+          description: No content
+        404:
+          $ref: '#/components/responses/NotFound'
+  /api/v1/shopping-carts/{shoppingCartId}/items:
+    post:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      description: "Add item or update to shopping cart"
+      tags:
+        - Shopping-Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShoppingCartItemInput"
+      responses:
+        204:
+          description: No content
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "6a6ca34c-e65c-496e-adaf-f872e1784003"
+      description: "List items in shopping cart"
+      tags:
+        - Shopping-Carts
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCartItemList"
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "6a6ca34c-e65c-496e-adaf-f872e1784003"
+      description: "Remove all items from shopping cart"
+      tags:
+        - Shopping-Carts
+      responses:
+        204:
+          description: No content
+        404:
+          $ref: '#/components/responses/NotFound'
+  /api/v1/shopping-carts/{shoppingCartId}/items/{itemId}:
+    delete:
+      parameters:
+        - schema:
+            type: string
+          name: shoppingCartId
+          in: path
+          required: true
+          example: "6a6ca34c-e65c-496e-adaf-f872e1784003"
+        - schema:
+            type: string
+          name: itemId
+          in: path
+          required: true
+          example: "177297bf-e586-4389-9f21-a3ce0c3f6580"
+      description: "Remove item from shopping cart"
+      tags:
+        - Shopping-Carts
+      responses:
+        204:
+          description: No content
+        404:
+          $ref: '#/components/responses/NotFound'
 components:
   parameters:
     page:
@@ -379,7 +544,7 @@ components:
         registerAt:
           type: string
           format: date-time
-          example: "2024-04-04T12:45Z"          
+          example: "2024-04-04T12:45Z"
         archivedAt:
           type: string
           format: date-time
@@ -849,12 +1014,12 @@ components:
         - PAID
         - READY        
         - CANCELED        
-    PaymentMethod:      
+    PaymentMethod:
       type: string
       example: "GATEWAY_BALANCE"
       enum:
         - GATEWAY_BALANCE
-        - CREDIT_CARD        
+        - CREDIT_CARD
     OrderSummary:
       required:
         - id
@@ -867,7 +1032,7 @@ components:
         - paidAt
         - readyAt
         - status
-      properties:        
+      properties:
         id:
           type: string
           example: "01226N0640J7Q"
@@ -898,4 +1063,87 @@ components:
         status:
           $ref: "#/components/schemas/OrderStatus"
         paymentMethod:
-          $ref: "#/components/schemas/PaymentMethod" 
+          $ref: "#/components/schemas/PaymentMethod"
+        - CREDIT_CARD
+    ShoppingCart:
+      required:
+        - id
+        - totalAmount
+        - totalItems
+        - customerId
+        - items
+      properties:
+        id:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        totalAmount:
+          type: number
+          example: 41.98
+        totalItems:
+          type: integer
+          example: 1
+        customerId:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShoppingCartItem"
+    ShoppingCartItem:
+      required:
+        - id
+        - productId
+        - name
+        - price
+        - available
+        - quantity
+        - totalAmount
+      properties:
+        id:
+          type: string
+          example: '177297bf-e586-4389-9f21-a3ce0c3f6580'
+        productId:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        name:
+          type: string
+          example: 'Desktop Gamer Dive'
+        price:
+          type: number
+          example: 100.00
+        available:
+          type: boolean
+          example: false
+        quantity:
+          type: integer
+          example: 2
+        totalAmount:
+          type: number
+          example: 140
+    ShoppingCartItemList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShoppingCartItem"
+    ShoppingCartItemInput:
+      required:
+        - quantity
+        - productId
+      properties:
+        quantity:
+          type: integer
+          example: 2
+        productId:
+          type: string
+          example: '6a6ca34c-e65c-496e-adaf-f872e1784003'
+    ShoppingCartInput:
+      required:
+        - customerId
+      properties:
+        customerId:
+          type: string
+          example: '6a6ca34c-e65c-496e-adaf-f872e1784003'
