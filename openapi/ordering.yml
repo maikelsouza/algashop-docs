@@ -285,7 +285,7 @@ paths:
                 $ref: "#/components/schemas/Order"
         404:
           $ref: '#/components/responses/NotFound'
-
+        500:
           $ref: '#/components/responses/InternalServerError'
   /api/v1/shopping-carts:
     post:
@@ -1063,8 +1063,7 @@ components:
         status:
           $ref: "#/components/schemas/OrderStatus"
         paymentMethod:
-          $ref: "#/components/schemas/PaymentMethod"
-        - CREDIT_CARD
+          $ref: "#/components/schemas/PaymentMethod"        
     ShoppingCart:
       required:
         - id
