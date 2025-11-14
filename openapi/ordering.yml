@@ -780,6 +780,10 @@ components:
           type: string
           example: "GATEWAY_BALANCE"
           nullable: false
+        creditCardId:
+          type: string
+          example: "c1a2b3d4-e5f6-47a8-14d8b3dc5aff"
+          nullable: true
         shipping:
           $ref: "#/components/schemas/ShippingInput"
         billing:
@@ -799,6 +803,10 @@ components:
           type: string
           example: "GATEWAY_BALANCE"
           nullable: false
+        creditCardId:
+          type: string
+          example: "c1a2b3d4-e5f6-47a8-14d8b3dc5aff"
+          nullable: true
         shipping:
           $ref: "#/components/schemas/ShippingInput"
         billing:
@@ -818,6 +826,7 @@ components:
         - items
         - shipping
         - billing
+        - creditCardId
       properties:
         id:
           type: string
@@ -849,7 +858,10 @@ components:
         status:
           $ref: "#/components/schemas/OrderStatus"
         paymentMethod:
-          $ref: "#/components/schemas/PaymentMethod"  
+          $ref: "#/components/schemas/PaymentMethod"
+        creditCardId:
+          type: string
+          example: "c1a2b3d4-e5f6-47a8-14d8b3dc5aff"          
         shipping:
           $ref: "#/components/schemas/Shipping"
         billing:
